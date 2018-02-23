@@ -1,0 +1,37 @@
+
+<div class="jumbotron text-center" ng-show="{{userDetails.userType=='ADMIN'}}">
+	<div class="alert alert-success" ng-show="message.success">{{message.success}}</div>
+	<div class="alert alert-warning" ng-show="message.errorDetails">{{message.errorDetails}}</div>
+
+	<form name="customerForm" class="form-inline" ng-show="showCustomerForm">
+	<input type="hidden" ng-model="tempCustomer.id">
+	Customer name:<input type="text" class="form-control" ng-model="tempCustomer.customerName" ng-disabled="updateMode" required>
+	Password:	<input type="text" class="form-control" ng-model="tempCustomer.password" required>
+		<input type="button" class="btn btn-default" value="cancel" ng-click="resetCustomerForm()">
+		<input type="button" class="btn btn-default" value="add" ng-click="addCustomer(tempCustomer)" ng-disabled="updateMode || !customerForm.$valid" ng-show="!updateMode">
+		<input type="button" class="btn btn-default" value="update" ng-click="updateCustomer(tempCustomer)" ng-disabled="!updateMode || !customerForm.$valid" ng-show="updateMode">
+	</form>
+	
+	
+	<table class="table table-condensed">
+		<th>Customers List <input type="button" class="btn btn-default" value="add customer" ng-click="addMode()"></th>
+		<tr><td>Search Customer: <input ng-model="query"> Sort by: <select
+				ng-model="orderProp">
+				<option value="customerName">name</option>
+			</select></td><td>Show customer with ID: <select ng-model="id">
+				<option ng-repeat="customer in customersTemp" ng-value="{{customer.id}}">{{customer.id}}</option>
+			</select><button ng-click="showCustomerByID(id)" class="btn btn-primary" ng-disabled="id==null">View</button></td>
+	    <td><button ng-click="viewAllCustomers()" class="btn btn-primary">view all customers</button></td></tr>
+		<tr><td><b>ID</b></td><td><b>customer name</b></td></tr>
+		<tr ng-repeat="customer in customers.customer | filter:query | orderBy:orderProp">
+			<td>{{customer.id}}</td>
+			<td>{{customer.customerName}}</td>
+			<td><button type="button" class="btn btn-default"
+					ng-click="editCustomer(customer)">Edit</button></td>
+			<td><button type="button" class="btn btn-default"
+					ng-click="removeCustomer(customer.id)">Delete</button></td>
+		</tr>
+	</table> </br></br></br></br>
+	
+
+</div>

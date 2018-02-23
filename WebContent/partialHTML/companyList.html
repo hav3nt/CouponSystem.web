@@ -1,0 +1,40 @@
+
+<div class="jumbotron text-center" ng-show="{{userDetails.userType=='ADMIN'}}">
+	<div class="alert alert-success" ng-show="message.success">{{message.success}}</div>
+	<div class="alert alert-warning" ng-show="message.errorDetails">{{message.errorDetails}}</div>
+	
+	<form name="companyForm" class="form-inline" ng-show="showCompanyForm">
+	<input type="hidden" ng-model="tempCompany.id">
+	Company name:<input type="text" class="form-control" ng-model="tempCompany.companyName" ng-disabled="updateMode" required>
+	Password:	<input type="text" class="form-control" ng-model="tempCompany.password" required>
+	Email:	<input type="text" class="form-control" ng-model="tempCompany.email" required>
+		<input type="button" class="btn btn-default" value="cancel" ng-click="resetCompanyForm()">
+		<input type="button" class="btn btn-default" value="add" ng-click="addCompany(tempCompany)" ng-disabled="updateMode || !companyForm.$valid" ng-show="!updateMode">
+		<input type="button" class="btn btn-default" value="update" ng-click="updateCompany(tempCompany)" ng-disabled="!updateMode || !companyForm.$valid" ng-show="updateMode">
+	</form>		
+	
+	
+	<table class="table table-condensed">
+		<th>Companies List <input type="button" class="btn btn-default" value="add company" ng-click="addMode()"></th>
+		<tr><td>Search Company: <input ng-model="query"> Sort by: <select
+				ng-model="orderProp">
+				<option value="companyName">name</option>
+				<option value="email">email</option>
+			</select></td><td>Show company with ID: <select ng-model="id">
+				<option ng-repeat="company in companiesTemp" ng-value="{{company.id}}">{{company.id}}</option>
+			</select><button ng-click="showCompanyByID(id)" class="btn btn-primary" ng-disabled="id==null">View</button></td>
+	    <td><button ng-click="viewAllCompanies()" class="btn btn-primary">view all companies</button></td></tr>
+		<tr><td><b>ID</b></td><td><b>company name</b></td><td><b>email</b></td></tr>
+		<tr ng-repeat="company in companies.company | filter:query | orderBy:orderProp">
+			<td>{{company.id}}</td>
+			<td>{{company.companyName}}</td>
+			<td>{{company.email}}</td>
+			<td><button type="button" class="btn btn-default"
+					ng-click="editCompany(company)">Edit</button></td>
+			<td><button type="button" class="btn btn-default"
+					ng-click="removeCompany(company.id)">Delete</button></td>
+		</tr>
+	</table> </br></br></br></br>
+	
+
+</div>

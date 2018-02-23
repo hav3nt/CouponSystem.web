@@ -1,0 +1,49 @@
+<div class="jumbotron text-center" ng-show="{{userDetails.userType=='CUSTOMER'}}">
+
+	<div class="alert alert-warning" ng-show="message.errorDetails">{{message.errorDetails}}</div>
+		
+	
+	<table class="table table-condensed">
+		<th>My Coupons List</th>
+		<tr><td>Search Coupon: <input ng-model="query"> Sort by: <select
+				ng-model="orderProp">
+				<option value="title">title</option>
+				<option value="startDate">startDate</option>
+				<option value="endDate">endDate</option>
+				<option value="amount">amount</option>
+				<option value="type">type</option>
+				<option value="message">message</option>
+				<option value="price">price</option>
+				<option value="image">image</option>
+			</select>
+		</td>
+		<td>Show Coupons of type:  
+			<select ng-model="couponType">
+				<option value="RESTAURANTS">RESTAURANTS</option>
+				<option value="ELECTRICITY">ELECTRICITY</option>
+				<option value="FOOD">FOOD</option>
+				<option value="HEALTH">HEALTH</option>
+				<option value="SPORTS">SPORTS</option>
+				<option value="CAMPING">CAMPING</option>
+				<option value="TRAVELLING">TRAVELLING</option>
+			</select> <button ng-click="showCouponsOfType(couponType)" class="btn btn-primary" ng-disabled="couponType==null">Show by type</button></td>
+			<td><button ng-click="showCustomerCoupons()" class="btn btn-primary">view all coupons</button></td>
+			<td>Show coupons by top price:
+			<input type="text" ng-model="topPrice">
+			<button ng-click="showCouponsByTopPrice(topPrice)" class="btn btn-primary" ng-disabled="topPrice==null">Show by price</button></td>
+		</tr>
+		<tr><td>Title</td><td>Starting Date</td><td>Expiration Date</td><td>Amount</td><td>Type</td><td>Message</td><td>Price</td><td>Image</td></tr>
+		<tr ng-repeat="coupon in coupons.coupon | filter:query | orderBy:orderProp">
+			<td>{{coupon.title}}</td>
+			<td>{{coupon.startDate}}</td>
+			<td>{{coupon.endDate}}</td>
+			<td>{{coupon.amount}}</td>
+			<td>{{coupon.type}}</td>
+			<td>{{coupon.message}}</td>
+			<td>{{coupon.price}}</td>
+			<td><img alt="" ng-src="couponPictures/{{coupon.image}}" class="img-responsive" width="50" height="100"></td>
+		</tr>
+	</table> </br></br></br></br>
+	
+
+</div>

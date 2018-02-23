@@ -1,0 +1,42 @@
+<html data-ng-app="couponApp">
+    <head>
+      <link rel="stylesheet" href="css/bootstrap.min.css" />
+
+      <script src="js/angular.min.js"></script>
+          <script src="js/angular-route.min.js"></script>
+      <script src="js/scriptCU.js"></script>
+      <script src="js/services.js"></script>
+    </head>
+    <body data-ng-controller="mainController">
+
+        <!-- HEADER AND NAVBAR -->
+        <header>
+            <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#/">CoupZone</a>
+                </div>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a>Hello {{userDetails.userName}} !</a></li>
+                    <li><a href="#/">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#login" data-ng-show="userDetails.userType=='GUEST'" data-ng-disabled="userDetails.userType=='GUEST'">Login</a></li>
+                    <li data-ng-repeat="link in userDetails.links" data-ng-show="userDetails.userType!='GUEST'" data-ng-disabled="userDetails.userType!='GUEST'">
+                    <a data-ng-href="{{link.href}}"><i class="fa fa-comment"></i>{{link.name}}</a></li>
+                    <li><a href="#/" data-ng-click="logOut()" data-ng-show="userDetails.userType!='GUEST'" data-ng-disabled="userDetails.userType!='GUEST'"><i class="fa fa-comment"></i> LogOut</a></li>
+                </ul>
+            </div>
+            </nav>
+        </header>
+
+        <div id="main">
+			
+		
+        <div data-ng-view></div>
+			
+        </div>
+
+    </body>
+    </html>

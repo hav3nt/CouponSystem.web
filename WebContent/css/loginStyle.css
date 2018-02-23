@@ -1,0 +1,20 @@
+@CHARSET "ISO-8859-1";
+body {
+	background: #eeeeee;
+}
+.form{
+	background: white;
+	width: 500px;
+	height: 250px;
+	color: navy;
+	margin-left: 250px; 
+	border-color: gray;
+	border-width: 10px;
+	border-radius: 10px;
+}
+header{
+	
+}
+footer{
+	background: blue;
+}

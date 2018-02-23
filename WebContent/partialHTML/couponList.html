@@ -1,0 +1,90 @@
+<div class="jumbotron text-center" ng-show="{{userDetails.userType=='COMPANY'}}">
+	<div class="alert alert-success" ng-show="message.success">{{message.success}}</div>
+	<div class="alert alert-warning" ng-show="message.errorDetails">{{message.errorDetails}}</div>
+	
+	<form name="couponForm" class="form-inline" ng-show="showCouponForm">
+	<input type="hidden" ng-model="tempCoupon.id">
+	Title:<input type="text" class="form-control" ng-model="tempCoupon.title" ng-disabled="updateMode" required>
+	Start date:	<input type="text" placeholder="yyyy-MM-dd" class="form-control" ng-model="tempCoupon.startDate" ng-disabled="updateMode" required>
+	End date:	<input type="text" placeholder="yyyy-MM-dd" class="form-control" ng-model="tempCoupon.endDate" required>
+	Amount:	<input type="text" class="form-control" ng-pattern="[0-9]" ng-model="tempCoupon.amount" ng-disabled="updateMode" required></br>
+	Type:	<select	ng-model="tempCoupon.type" ng-disabled="updateMode" required>
+				<option value="RESTAURANTS">RESTAURANTS</option>
+				<option value="ELECTRICITY">ELECTRICITY</option>
+				<option value="FOOD">FOOD</option>
+				<option value="HEALTH">HEALTH</option>
+				<option value="SPORTS">SPORTS</option>
+				<option value="CAMPING">CAMPING</option>
+				<option value="TRAVELLING">TRAVELLING</option>
+			</select>
+	Message:	<input type="text" class="form-control" ng-model="tempCoupon.message" ng-disabled="updateMode" required>
+	Price:	<input type="text" class="form-control" ng-pattern="[0-9]" ng-model="tempCoupon.price" required></br>
+	<br>Photo:
+      <input type="file" ngf-select ng-model="picFile" name="file"    
+             accept="image/*" ngf-max-size="2MB" class="form-control" ng-disabled="updateMode">
+      <i ng-show="couponForm.file.$error.required">*required</i><br>
+      <i ng-show="couponForm.file.$error.maxSize">File too large 
+          {{picFile.size / 1000000|number:1}}MB: max 2M</i>
+      <img ng-show="couponForm.file.$valid" ngf-thumbnail="picFile" class="img-responsive" width="300" height="400"> <button ng-click="picFile = null" ng-show="picFile" ng-disabled="updateMode">Remove</button>
+      <br>
+		<input type="button" class="btn btn-default" value="cancel" ng-click="resetCouponForm()">
+		<input type="button" class="btn btn-default" value="add" ng-click="addCoupon(picFile)" ng-disabled="updateMode || !couponForm.$valid" ng-show="!updateMode">
+		<input type="button" class="btn btn-default" value="update" ng-click="updateCoupon(tempCoupon)" ng-disabled="!updateMode || !couponForm.$valid" ng-show="updateMode">
+	</form>
+
+	
+		
+	
+	<table class="table table-condensed">
+		<th>Coupons List <input type="button" class="btn btn-default" value="add coupon" ng-click="setAddMode()"></th>
+		<tr><td>Search Coupon: <input ng-model="query"><br>
+		 Sort by: <select ng-model="orderProp">
+				<option value="title">title</option>
+				<option value="startDate">startDate</option>
+				<option value="endDate">endDate</option>
+				<option value="amount">amount</option>
+				<option value="type">type</option>
+				<option value="message">message</option>
+				<option value="price">price</option>
+			</select></td>
+			<td>Show Coupons of type:  
+			<select ng-model="couponType">
+				<option value="RESTAURANTS">RESTAURANTS</option>
+				<option value="ELECTRICITY">ELECTRICITY</option>
+				<option value="FOOD">FOOD</option>
+				<option value="HEALTH">HEALTH</option>
+				<option value="SPORTS">SPORTS</option>
+				<option value="CAMPING">CAMPING</option>
+				<option value="TRAVELLING">TRAVELLING</option>
+			</select> <button ng-click="showCouponsOfType(couponType)" class="btn btn-primary" ng-disabled="couponType==null">Show by type</button></td>
+			<td><button ng-click="showAllCoupons()" class="btn btn-primary">view all coupons</button></td>
+			<td>Show coupons by top price:
+			<input type="text" ng-model="topPrice">
+			<button ng-click="showCouponsByTopPrice(topPrice)" class="btn btn-primary" ng-disabled="topPrice==null">Show by price</button></td>
+			<td>Show coupon with ID:
+			<select ng-model="id">
+				<option ng-repeat="coupon in couponsTemp" ng-value="{{coupon.id}}">{{coupon.id}}</option>
+			</select><button ng-click="showCouponByID(id)" class="btn btn-primary" ng-disabled="id==null">View</button></td>
+			<td>Show coupons which expire sooner than:
+			<input type="text" ng-model="endDate" placeholder="yyyy-MM-dd">
+			<button ng-click="showCouponsByEndDate(endDate)" class="btn btn-primary" ng-disabled="endDate==null">View</button></td></tr>
+		<tr><td>ID</td><td>Title</td><td>Starting Date</td><td>Expiration Date</td><td>Amount</td><td>Type</td><td>Message</td><td>Price</td><td>Image</td></tr>
+		<tr ng-repeat="coupon in coupons.coupon | filter:query | orderBy:orderProp">
+			<td>{{coupon.id}}</td>
+			<td>{{coupon.title}}</td>
+			<td>{{coupon.startDate}}</td>
+			<td>{{coupon.endDate}}</td>
+			<td>{{coupon.amount}}</td>
+			<td>{{coupon.type}}</td>
+			<td>{{coupon.message}}</td>
+			<td>{{coupon.price}}</td>
+			<td><img alt="" ng-src="couponPictures/{{coupon.image}}" class="img-responsive" width="50" height="100"></td>
+			<td><button type="button" class="btn btn-default"
+					ng-click="editCoupon(coupon)">Edit</button></td>
+			<td><button type="button" class="btn btn-default"
+					ng-click="removeCoupon(coupon.id)">Delete</button></td>
+		</tr>
+	</table> </br></br></br></br>
+	
+
+</div>
